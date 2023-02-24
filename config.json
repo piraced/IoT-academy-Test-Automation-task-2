@@ -1,25 +1,65 @@
 {
     "tests":[
       {
-        "eventType": "a",
-        "eventSubtype": "a",
+        "eventType": "Config Change",
+        "eventSubtype": "all",
         "configuration":{
-          "endpoint": "/api/system/device/info",
-          "requestType": "get",
+          "endpoint": "/api/services/events_reporting/config/",
+          "requestType": "put",
           "parameters":{
-            
+            "data":{
+              "id":"",
+              ".type":"rule",
+              "event":"Config",
+              "eventMark":"all",
+              "action":"sendSMS",
+              "enable":"1",
+              "message":"test text",
+              "telnum":"PLACEHOLDER, NEEDS REPLACING"
+            }
           }
         },
-        "trigger":{
-          "endpoint": "test",
-          "requestType": "get",
+        "trigger":[
+          {
+          "endpoint": "/api/services/modbus/tcp_slave/config/general",
+          "requestType": "put",
           "parameters": {
-            
-          }
-        },
+            "data":
+            {
+              ".type":"modbus",
+              "id":"general",
+              "keepconn":"1",
+              "allow_ra":"0",
+              "enabled":"1",
+              "port":"502",
+              "device_id":"1",
+              "md_data_type":"0",
+              "timeout":"0",
+              "clientregs":"0"}
+        }
+      },
+      {
+        "endpoint": "/api/services/modbus/tcp_slave/config/general",
+        "requestType": "put",
+        "parameters": {
+          "data":
+          {
+            ".type":"modbus",
+            "id":"general",
+            "keepconn":"1",
+            "allow_ra":"0",
+            "enabled":"0",
+            "port":"502",
+            "device_id":"1",
+            "md_data_type":"0",
+            "timeout":"0",
+            "clientregs":"0"}
+      }
+    }
+      ],
         "response": {
-          "telephoneNumber":"8888",
-          "text":"a"
+          "telephoneNumber":"+37066040956",
+          "text":"test text"
         }
       }
     ]

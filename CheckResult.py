@@ -1,9 +1,10 @@
 import datetime
+import time
 
 import SendHTTP
 
 
-def GetAllSMS(token, requestInfo, ip):
+def GetAllSMS(token, ip):
     request = {
         "endpoint":"/api/services/mobile_utilities/sms_messages/read/config",
         "requestType":"get",
@@ -26,10 +27,19 @@ def NewerThanTimestampSMS(response, date):
         return None
 
 
-def GetResponseSMS(response, text, date, args):
-    sms = FindSMS(response, text)
-    if sms == None:
-        sms = NewerThanTimestampSMS(response, date)
+def GetResponseSMS(token, ip2, number, text, date, args):
+    for i in range(1, 11):
+        response = GetAllSMS(token, ip2)
+        sms = FindSMS(response, text)
+        if sms == None:
+            sms = NewerThanTimestampSMS(response, date)
+        elif CheckSender(sms, number):
+            return sms
+        if sms != None and args.CorrectMessageWait == False:
+            return sms
+        time.sleep(args.MessageWait / 10)
+    return sms
+        
 
 
 def CheckSender(sms, number):

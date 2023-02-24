@@ -15,6 +15,7 @@ def Main():
     bearerToken1 = SendHTTP.Login(args.ip1,args.Username1,args.Password1)
     bearerToken2 = SendHTTP.Login(args.ip2,args.Username2,args.Password2)
 
+    #this needs fixing
     if args.Router != SendHTTP.GetDeviceName(bearerToken1, args.ip1):
         raise Exception("Connected product (-ip1) is not the same as the product indicated as being tested (-r)")
 
@@ -29,10 +30,11 @@ def Main():
         os.system('cls||clear')
         TerminalControl.PopulateTerminal(args.Router, test, success, fail, len(config))
 
-        SendHTTP.SendRequest(bearerToken1, test[0], args.ip1)
-        SendHTTP.SendRequest(bearerToken1, test[1], args.ip1)
+        ruleID = SendHTTP.CreateEventReport(bearerToken1, test[0], args.ip1)["data"]["id"]
+        for request in test[1]:
+            SendHTTP.SendRequest(bearerToken1, request, args.ip1)
 
-        sms = CheckResult.GetResponseSMS(CheckResult.GetAllSMS(bearerToken2, test[2], args.ip2), test[2]["text"], datetime.datetime.now())
+        sms = CheckResult.GetResponseSMS(bearerToken2, args.ip2, test[2]["number"], test[2]["text"], datetime.datetime.now(), args)
         
         WriteResult.WriteResult(test, sms, writer, CheckResult.CheckResult(test, sms))
         if CheckResult.CheckResult(test, sms):
@@ -40,10 +42,9 @@ def Main():
         else:
             fail+1
 
-        #clean up (delete sms and event logging configuration)
         if sms != None:
             CheckResult.DeleteSMS(sms, bearerToken2, args.ip2)
-        
+        SendHTTP.DeleteEventReport(bearerToken1, ruleID, args.ip1)
     return 0
 
 

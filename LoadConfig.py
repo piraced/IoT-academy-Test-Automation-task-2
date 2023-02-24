@@ -31,13 +31,14 @@ def SplitConfig(config):
             requestType=test["configuration"]["requestType"],
             parameters=test["configuration"]["parameters"]
         ))
-        triggerConfig.append(dict(
-            eventType=test["eventType"],
-            eventSubtype=test["eventSubtype"],
-            endpoint=test["trigger"]["endpoint"],
-            requestType=test["trigger"]["requestType"],
-            parameters=test["trigger"]["parameters"]
-        ))
+        for config in test["trigger"]:
+            triggerConfig.append(dict(
+                eventType=test["eventType"],
+                eventSubtype=test["eventSubtype"],
+                endpoint=test["trigger"]["endpoint"],
+                requestType=test["trigger"]["requestType"],
+                parameters=test["trigger"]["parameters"]
+            ))
         resultConfig.append(dict(
             eventType=test["eventType"],
             eventSubtype=test["eventSubtype"],

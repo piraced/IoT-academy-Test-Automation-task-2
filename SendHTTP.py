@@ -18,6 +18,28 @@ def GetDeviceName(token, ip):
     json = SendRequest(token, request, ip).json()
     return json["data"]["static"]["device_name"]
 
+def CreateEventReport(token, config, ip):
+    request = {
+        "endpoint": "/api/services/events_reporting/config/",
+        "requestType": "post",
+        "parameters": {}
+    }
+    json = SendRequest(token, request, ip).json()
+    id = json["data"]["id"]
+    config["endpoint"] = config["endpoint"] + id
+    config["parameters"]["data"]["id"] = id
+    return SendRequest(token, config, ip).json()
+
+def DeleteEventReport(token, id, ip):
+    request = {
+        "endpoint": "/api/services/events_reporting/config/",
+        "requestType": "delete",
+        "parameters": {
+            "data":[id]
+        }
+    }
+    return SendRequest(token, request, ip).json()
+    
 
 def SendRequest(token, requestInfo, ip):
     header = { "Authorization": "Bearer " + token}
