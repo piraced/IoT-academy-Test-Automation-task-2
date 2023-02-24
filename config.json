@@ -1,0 +1,26 @@
+{
+    "tests":[
+      {
+        "eventType": "a",
+        "eventSubtype": "a",
+        "configuration":{
+          "endpoint": "/api/system/device/info",
+          "requestType": "get",
+          "parameters":{
+            
+          }
+        },
+        "trigger":{
+          "endpoint": "test",
+          "requestType": "get",
+          "parameters": {
+            
+          }
+        },
+        "response": {
+          "telephoneNumber":"8888",
+          "text":"a"
+        }
+      }
+    ]
+  }
