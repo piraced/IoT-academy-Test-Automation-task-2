@@ -11,7 +11,7 @@ def Login(ipAddress, username, password):
 
 def GetDeviceName(token, ip):
     request = {
-        "endpoint": "",
+        "endpoint": "/api/system/device/info",
         "requestType": "get",
         "parameters": {}
     }
