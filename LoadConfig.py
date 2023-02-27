@@ -16,7 +16,6 @@ def FilterConfig(config, args):
                 newConfig["tests"].append(test)
     else:
         newConfig = config
-    print(args.EventTypes)
     return newConfig
 
 def SplitConfig(config):
@@ -31,13 +30,13 @@ def SplitConfig(config):
             requestType=test["configuration"]["requestType"],
             parameters=test["configuration"]["parameters"]
         ))
-        for config in test["trigger"]:
+        for index, config in enumerate(test["trigger"]):
             triggerConfig.append(dict(
                 eventType=test["eventType"],
                 eventSubtype=test["eventSubtype"],
-                endpoint=test["trigger"]["endpoint"],
-                requestType=test["trigger"]["requestType"],
-                parameters=test["trigger"]["parameters"]
+                endpoint=test["trigger"][index]["endpoint"],
+                requestType=test["trigger"][index]["requestType"],
+                parameters=test["trigger"][index]["parameters"]
             ))
         resultConfig.append(dict(
             eventType=test["eventType"],

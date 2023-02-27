@@ -4,13 +4,13 @@ import time
 import SendHTTP
 
 
-def GetAllSMS(token, ip):
+def GetAllSMS(token, ip, args):
     request = {
         "endpoint":"/api/services/mobile_utilities/sms_messages/read/config",
         "requestType":"get",
         "parameters": {}
         }
-    return SendHTTP.SendRequest(token, request, ip).json()
+    return SendHTTP.SendRequest(token, request, ip, args).json()
 
 
 def FindSMS(response, text):
@@ -29,7 +29,7 @@ def NewerThanTimestampSMS(response, date):
 
 def GetResponseSMS(token, ip2, number, text, date, args):
     for i in range(1, 11):
-        response = GetAllSMS(token, ip2)
+        response = GetAllSMS(token, ip2, args)
         sms = FindSMS(response, text)
         if sms == None:
             sms = NewerThanTimestampSMS(response, date)
@@ -49,18 +49,18 @@ def CheckSender(sms, number):
         return False
 
 
-def DeleteSMS(sms, token, ip):
+def DeleteSMS(sms, token, ip, args):
     request = {
         "endpoint":"/api/services/mobile_utilities/sms_messages/read/config/" + sms["modem_id"] + "/" + sms["id"],
         "requestType":"delete",
         "parameters": {}
         }
-    return SendHTTP.SendRequest(token, request, ip).json()
+    return SendHTTP.SendRequest(token, request, ip, args).json()
 
 def CheckResult(test, sms):
     if sms == None:
         return False
-    elif test[2]["text"] == sms["message"] and test[2]["number"] == sms["sender"]:
+    elif test["response"]["text"] == sms["message"] and test["response"]["telephoneNumber"] == sms["sender"]:
         return True
     else:
         return False

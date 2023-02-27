@@ -15,5 +15,7 @@ def WriteResult(test, sms, writer, boolResult):
         result = "PASS"
     else:
         result = "FAIL"
-    writer.writerow({test[2]["eventType"], test[2]["eventSubtype"], test[2]["text"], sms["message"], test[2]["number"], sms["sender"], result})
+        sms = {"message": "",
+               "sender": ""}
+    writer.writerow({test["response"]["eventType"], test["response"]["eventSubtype"], test["response"]["text"], sms["message"], test["response"]["telephoneNumber"], sms["sender"], result})
     return writer

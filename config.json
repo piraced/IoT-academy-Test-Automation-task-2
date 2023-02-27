@@ -1,11 +1,7 @@
 {
     "tests":[
       {
-        "eventType": "Config Change",
-        "eventSubtype": "all",
         "configuration":{
-          "endpoint": "/api/services/events_reporting/config/",
-          "requestType": "put",
           "parameters":{
             "data":{
               "id":"",
@@ -15,7 +11,7 @@
               "action":"sendSMS",
               "enable":"1",
               "message":"test text",
-              "telnum":"PLACEHOLDER, NEEDS REPLACING"
+              "telnum":"+37063674686"
             }
           }
         },
@@ -58,6 +54,8 @@
     }
       ],
         "response": {
+          "eventType": "Config Change",
+          "eventSubtype": "all",
           "telephoneNumber":"+37066040956",
           "text":"test text"
         }

@@ -12,6 +12,6 @@ def PopulateTerminal(productTested, test, success, fail, total):
     CallOs()
 
     print("Product being tested: " + productTested)
-    print("Event type: " + test[2]["eventType"])
-    print("Event subtype: " + test[2]["eventSubtype"])
-    print("Results so far: PASS: " + green + success + normal + " FAIL: " + red + fail + normal + " OUT OF: " + total)
+    print("Event type: " + test["response"]["eventType"])
+    print("Event subtype: " + test["response"]["eventSubtype"])
+    print(f"Results so far: PASS: {green}{success}{normal} FAIL: {red}{fail}{normal} OUT OF: {total}")
