@@ -27,6 +27,7 @@ Optional arguments:
 * **-mv / --MessageWait** - time in seconds (between 3 and 300, default - 30) the program will wait for the response SMS to arrive
 * **-cmv / --CorrectMessageWait** - if this flag is used, the program will wait for the MessageWait period to recieve the expected SMS, otherwise - first SMS recieved after sending the requests to trigger the event report is assumed to be the response SMS
 * **-et / --EventTypes** - A list of event types (sperated by spaces) that will be tested. If this flag is not used, then all the tests in the configuration file will be run.
+* **-c / --Configuration** - The file name of the configuration file. Default: "config.json"
 
 ## Configuration file
 
@@ -117,7 +118,7 @@ This part of the config file holds the event type and subtype names which will b
 
 ## Running the script
 
-The script is launched by running the ~~Main.py~~ file using Python. Other module files and the configuration file must be in the same folder. There is currently no way to use a configuration file with a name other than "config.json".
+The script is launched by running the __Main.py__ file using Python. Other module files and the configuration file must be in the same folder.
 
 After launching the script will run with no user input and generate a .csv file as output. The file will be automatically named following this convention: **deviceName_YYYY-MM-DD_HH:mm:ss.csv**
 
