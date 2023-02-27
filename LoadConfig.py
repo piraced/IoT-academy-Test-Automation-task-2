@@ -18,6 +18,8 @@ def FilterConfig(config, args):
         newConfig = config
     return newConfig
 
+
+#no longer used
 def SplitConfig(config):
     ruleConfig = []
     triggerConfig = []

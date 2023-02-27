@@ -16,12 +16,11 @@ def Main():
     bearerToken2 = SendHTTP.Login(args.ip2,args.Username2,args.Password2)
 
     if args.Router != SendHTTP.GetDeviceName(bearerToken1, args):
-        raise 
+        raise Exception("Device name given in the arguments does not match the device name of device at ip1")
 
     
     try:
-        #config = LoadConfig.SplitConfig(LoadConfig.FilterConfig(LoadConfig.ReadConfigFile("config.json"), args))
-        config = LoadConfig.FilterConfig(LoadConfig.ReadConfigFile("config.json"), args)
+        config = LoadConfig.FilterConfig(LoadConfig.ReadConfigFile(args.Config), args)
     except:
         os.system('cls||clear')
         print("The configuration file is missing or malformed")
@@ -45,15 +44,15 @@ def Main():
         
         WriteResult.WriteResult(test, sms, writer, CheckResult.CheckResult(test, sms))
         if CheckResult.CheckResult(test, sms):
-            success+1
+            success = success+1
         else:
-            fail+1
+            fail = fail+1
 
-        print("a")
-        input()
         if sms != None:
             CheckResult.DeleteSMS(sms, bearerToken2, args.ip2, args)
         SendHTTP.DeleteEventReport(bearerToken1, ruleID, args.ip1, args)
+    os.system('cls||clear')
+    TerminalControl.PopulateTerminal(args.Router, config["tests"][-1], success, fail, len(config["tests"]))
     return 0
 
 # Rutx11 tel no - +37066040956
@@ -71,6 +70,7 @@ def argParser():
     parser.add_argument("-mv", "--MessageWait", default=30, choices=range(3, 301), type=int, metavar="3-300" ,help="The amount of time in seconds the test will wait to recieve the SMS report")
     parser.add_argument("-cmv", "--CorrectMessageWait", action="store_true",help="Select if the test should keep waitng for the correct SMS for the rest of MessageWait duration after recieving a message with inccorect text or number (default:False)")
     parser.add_argument("-et", "--EventTypes", nargs='*', help="Event types to be tested")
+    parser.add_argument("-c", "--Config", default="config.json", help="File name of the configuration file. Default: config.json")
     args = parser.parse_args()
     return args
 
