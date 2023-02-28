@@ -1,5 +1,5 @@
  # IoT-academy-Test-Automation-task-2
-A script to automate testing of the event reporting function on RUTos devices.
+A Python 3.10 script to automate testing of the event reporting function on RUTos devices.
 
 ## Libraries
 there is only one library being used:
