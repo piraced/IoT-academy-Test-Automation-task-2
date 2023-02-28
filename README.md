@@ -47,6 +47,7 @@ example of a configuration file:
             "action": "sendSMS",
             "enable": "1",
             "message": "test text",
+            "recipient_format":"single",
             "telnum": "+37063674686"
           }
         }
@@ -105,7 +106,7 @@ The configuration file as an array of "tests". Each member of the "tests" array 
 #### "configuration"
 
 This part of the config file simply holds the request payload to configure an instance of Events Reporting. 
-Note that the id is not set as it is assigned randomly by the device.
+Note that the id is not set as it is assigned randomly by the device and all of the fields in the example configuration are necessary
 
 #### "trigger"
 

@@ -8,6 +8,8 @@ import CheckResult
 import WriteResult
 import TerminalControl
 
+global bearerToken1
+global bearerToken2
 
 def Main():
     args = argParser()
@@ -41,12 +43,15 @@ def Main():
             SendHTTP.SendRequest(bearerToken1, request, args.ip1, args)
 
         sms = CheckResult.GetResponseSMS(bearerToken2, args.ip2, test["response"]["telephoneNumber"], test["response"]["text"], datetime.datetime.now(), args)
-        
+
         WriteResult.WriteResult(test, sms, writer, CheckResult.CheckResult(test, sms))
         if CheckResult.CheckResult(test, sms):
             success = success+1
         else:
             fail = fail+1
+
+        print("a")
+        input()
 
         if sms != None:
             CheckResult.DeleteSMS(sms, bearerToken2, args.ip2, args)
@@ -55,7 +60,7 @@ def Main():
     TerminalControl.PopulateTerminal(args.Router, config["tests"][-1], success, fail, len(config["tests"]))
     return 0
 
-# Rutx11 tel no - +37066040956
+#Rutx11 tel no - +37066040956
 #Rut955 tel no - +37063674686
 def argParser():
     parser = argparse.ArgumentParser()

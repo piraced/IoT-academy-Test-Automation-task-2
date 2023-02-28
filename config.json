@@ -11,6 +11,7 @@
             "action": "sendSMS",
             "enable": "1",
             "message": "test text",
+            "recipient_format":"single",
             "telnum": "+37063674686"
           }
         }

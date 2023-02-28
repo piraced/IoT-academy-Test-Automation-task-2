@@ -8,7 +8,20 @@ import os
 
 def Login(ipAddress, username, password):
     login = {"username":username,"password":password}
-    return requests.post("http://" + ipAddress + "/api/login", json=login).json()["jwtToken"]
+    try:
+        token = requests.post("http://" + ipAddress + "/api/login", json=login).json()["jwtToken"]
+        token.raise_for_status()
+    except requests.HTTPError as error:
+        os.system('cls||clear')
+        print("HTTP login request was unsuccessful with code: " + error.response.text)
+        print("Please check the username and password and run the script again")
+        quit()
+    except requests.ConnectionError as error:
+        os.system('cls||clear')
+        print("There is a problem with the connection: " + error.response.text)
+        quit()
+    else:
+        return token
 
 
 def GetDeviceName(token, args):
@@ -44,7 +57,8 @@ def DeleteEventReport(token, id, ip, args):
     }
     return SendRequest(token, request, ip, args).json()
     
-
+#currently if the bearer token expires the program will start to re-login every request (and wait 1/10 of the timout)
+#this would need a lot of refactoring to fix
 def SendRequest(token, requestInfo, ip, args):
     header = { "Authorization": "Bearer " + token}
     for i in range (1, 11):
@@ -65,11 +79,21 @@ def SendRequest(token, requestInfo, ip, args):
             os.system('cls||clear')
             print("HTTP request was unsuccessful with code: " + error.response.text)
             print(f"Retrying...  ({i}/10)")
+            token = AttemptRelogin(ip, args)
         except requests.ConnectionError as error:
             os.system('cls||clear')
             print("There is a problem with the connection: " + error.response.text)
             print(f"Retrying...  ({i}/10)")
+            token = AttemptRelogin(ip, args)
         else:
             return response
         time.sleep( args.Timeout / 10)
     return response
+
+
+def AttemptRelogin(ip, args):
+    if ip == args.ip1:
+        return Login(ip, args.Username1, args.Password1)
+    elif ip == args.ip2:
+        return Login(ip, args.Username2, args.Password2)
+    else: raise Exception
